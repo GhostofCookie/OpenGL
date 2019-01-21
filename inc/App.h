@@ -3,5 +3,7 @@
 class App
 {
   public:
-   App(){}
+   App(int argc, char** argv, void (*f)(void));
+
+   
 };

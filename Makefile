@@ -1,6 +1,6 @@
-CC := g++ -std=c++11
+CC := g++ 
 LDFLAGS := -Wall
-CPPFLAGS :=
+CPPFLAGS := -std=c++11
 CXXFLAGS :=
 
 #directories for where your source files are
@@ -15,14 +15,14 @@ SRC_FILES := $(wildcard $(SRC_DIR)*.cc)
 OBJ_FILES := $(patsubst $(SRC_DIR)%.cc,$(BIN_DIR)%.o,$(SRC_FILES))
 
 #name of the executable
-app_default := window
+app_default := Application
 app ?= $(app_default)
 
 #Open GL libraries.
 LIBDIR = -L/usr/lib/
 LIBRARIES = -lX11 -lglut -lGL -lGLU -lm
 
-all: clean clean-all mkbin build
+all: clean-all mkbin build
 
 build: $(OBJ_FILES)
 	$(CC) $(LDFLAGS) -o $(app) $^ $(LIBDIR) $(LIBRARIES)
@@ -34,7 +34,7 @@ $(BIN_DIR)%.o: $(SRC_DIR)%.cc
 clean:
 	rm -rf $(BIN_DIR)
 
-clean-all:
+clean-all: clean
 	rm -rf *~ 
 	rm -rf $(app) $(app_default)
 
