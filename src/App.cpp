@@ -5,9 +5,14 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <stdlib.h>
+
+#include <stdlib.h>
+#include <stdio.h>    
+#include <string.h> 
+
 #include "../inc/App.h"
 
-App::App(int argc, char** argv, const char* name, void (*f)(void), void(*g)(void))
+App::App(int argc, char** argv, const char* name, void (*f)(void))
 {
    glutInit(&argc, argv);
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -16,13 +21,40 @@ App::App(int argc, char** argv, const char* name, void (*f)(void), void(*g)(void
    glutCreateWindow(name);
 
    (*f)();
-   
-   glutDisplayFunc(g);
-   
 
 }
 
-void App::Reshape(void(*f)(int w, int h))
+void App::Loop()
 {
-	glutReshapeFunc(f);
+	glutMainLoop();
+}
+
+void App::Display(void (*lambda)())
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glPushMatrix();
+	(*lambda)();
+	glPopMatrix();
+	glutSwapBuffers();
+}
+
+void App::RegisterCallbackFuncs(void(*d)(void), void(*r)(int w, int h), void(*m)(int button, int state, int x, int y))
+{
+	glutDisplayFunc(d);
+	glutReshapeFunc(r);
+	if (m)
+		glutMouseFunc(m);
+}
+
+void App::Reshape(int w, int h)
+{
+	glutReshapeWindow(w, h);
+}
+
+void App::PrintToScreen(const char* str, void * font)
+{
+	int i, len = strlen(str);
+
+	for (i = 0; i < len; i++)
+		glutBitmapCharacter(font, *str++);
 }

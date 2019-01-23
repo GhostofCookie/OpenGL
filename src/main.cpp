@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include <stdlib.h>
+
 
 #include "../inc/App.h"
 
@@ -15,26 +15,22 @@ void mouse(int button, int state, int x, int y);
 
 int main(int argc, char** argv)
 {
-   App* app = new App(argc, argv, "Title", init, display);
-   
-   app->Reshape(reshape);
-   glutMouseFunc(mouse);
-   glutMainLoop();
+   App(argc, argv, "Title", init);
+   App::RegisterCallbackFuncs(display, reshape, mouse);
+   App::Loop();
 
-   delete app;
-   
    return 0;
 }
 
 
 void display(void)
 {
-   glClear(GL_COLOR_BUFFER_BIT);
-   glPushMatrix();
-   /* Insert Stuff here */
-   glPopMatrix();
-   
-   glutSwapBuffers();
+	auto f = [](auto ...args)
+	{
+		App::PrintToScreen("This is text!", GLUT_BITMAP_HELVETICA_12);
+	};
+
+	App::Display(f);
 }
 
 void init(void)
