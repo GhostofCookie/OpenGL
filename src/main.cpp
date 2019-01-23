@@ -16,7 +16,8 @@ void mouse(int button, int state, int x, int y);
 int main(int argc, char** argv)
 {
    App(argc, argv, "Title", init);
-   App::RegisterCallbackFuncs(display, reshape, mouse);
+   //App::RegisterCallbackFuncs(display, reshape, mouse);
+   App::RegisterFuncs(display, reshape, mouse);
    App::Loop();
 
    return 0;
@@ -25,12 +26,10 @@ int main(int argc, char** argv)
 
 void display(void)
 {
-	auto f = [](auto ...args)
+	App::Display([](auto ...args)
 	{
 		App::PrintToScreen("This is text!", GLUT_BITMAP_HELVETICA_12);
-	};
-
-	App::Display(f);
+	});
 }
 
 void init(void)
