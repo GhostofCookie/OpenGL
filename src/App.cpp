@@ -38,14 +38,6 @@ void App::Display(void (*lambda)())
 	glutSwapBuffers();
 }
 
-void App::RegisterCallbackFuncs(void(*d)(void), void(*r)(int w, int h), void(*m)(int button, int state, int x, int y))
-{
-	glutDisplayFunc(d);
-	glutReshapeFunc(r);
-	if (m)
-		glutMouseFunc(m);
-}
-
 void App::Reshape(int w, int h)
 {
 	glutReshapeWindow(w, h);
