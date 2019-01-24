@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
 void display(void)
 {
-	App::Display([](auto ...args)
+	App::Display([]()
 	{
 		App::PrintToScreen("On screen message to be displayed fully.", GLUT_BITMAP_HELVETICA_12, -0.99f, 0.95f);
 	});
