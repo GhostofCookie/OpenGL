@@ -3,25 +3,22 @@
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glut.h>
-#include <stdlib.h>
-
-#include <stdlib.h>
-#include <stdio.h>    
-#include <string.h> 
 
 #include "../inc/App.h"
 
-App::App(int argc, char** argv, const char* name, void (*f)(void))
+App::App(int argc, char** argv, const char* name, int w, int h)
 {
    glutInit(&argc, argv);
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-   glutInitWindowSize(1280, 720);
+   glutInitWindowSize(w, h);
    glutInitWindowPosition(100, 100);
    glutCreateWindow(name);
+}
 
-   (*f)();
-
+void App::Init(float c, GLenum mode)
+{
+	glClearColor(c, c, c, 1.0);
+	glShadeModel(mode);
 }
 
 void App::Loop()
@@ -43,10 +40,11 @@ void App::Reshape(int w, int h)
 	glutReshapeWindow(w, h);
 }
 
-void App::PrintToScreen(const char* str, void * font)
+void App::PrintToScreen(const char* str, void * font, float x, float y)
 {
-	int i, len = strlen(str);
-
-	for (i = 0; i < len; i++)
-		glutBitmapCharacter(font, *str++);
+	glRasterPos2f(x, y);
+	glColor3f(0, 0, 1);
+	int len = strlen(str);
+	for (int i = 0; i < len; i++)
+	glutBitmapCharacter(font, *str++);
 }
