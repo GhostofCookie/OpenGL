@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Constants.h"
+#include <GL/glut.h>
 #include <cstdarg>
 
 class App
@@ -20,7 +21,11 @@ public: // Window Setup
 	static void Loop();
 
 public: // Application Functions
-	static void PrintToScreen(const char* str, float x = 0.f, float y = 0.f);
+	static void PrintToScreen(const char* str, float x = 0.f, float y = 0.f,
+		void* Font = GL_Font::HELVETICA,
+		GL_Colour::Colour colour = GL_Colour::GL_White);
+	static void PrintToScreen(const char* str, float x = 0.f, float y = 0.f, 
+		GL_Colour::Colour colour = GL_Colour::GL_White);
 
 private:
 	typedef void(*__gl_void_ii	)(int, int);

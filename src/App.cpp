@@ -3,9 +3,12 @@
 #endif
 #include <GL/gl.h>
 #include <GL/glu.h>
+
 #include <stdlib.h>
 #include <stdio.h>    
 #include <string.h> 
+
+#include <queue>
 
 #include "../inc/App.h"
 
@@ -43,12 +46,19 @@ void App::Reshape(int w, int h)
 	glutReshapeWindow(w, h);
 }
 
-void App::PrintToScreen(const char* str, float x, float y)
+void App::PrintToScreen(const char * str, float x, float y, void * font, GL_Colour::Colour colour)
 {
-   void* font = GLUT_BITMAP_HELVETICA_12;
-   glRasterPos2f(x, y);
-   glColor3f(0, 0, 1);
-   int len = strlen(str);
-   for (int i = 0; i < len; i++)
-      glutBitmapCharacter(font, *str++);
+	glDisable(GL_LIGHTING);
+	colour;
+	glRasterPos2f(x, y);
+	int len = strlen(str);
+	for (int i = 0; i < len; i++)
+		glutBitmapCharacter(font, *str++);
+	glEnable(GL_LIGHTING);
 }
+
+void App::PrintToScreen(const char* str, float x, float y, GL_Colour::Colour colour)
+{
+	PrintToScreen(str, x, y, GL_Font::HELVETICA, colour);
+}
+
