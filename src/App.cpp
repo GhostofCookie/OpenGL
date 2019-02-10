@@ -43,11 +43,12 @@ void App::Reshape(int w, int h)
 	glutReshapeWindow(w, h);
 }
 
-void App::PrintToScreen(const char* str, void * font, float x, float y)
+void App::PrintToScreen(const char* str, float x, float y)
 {
-	glRasterPos2f(x, y);
-	glColor3f(0, 0, 1);
-	int len = strlen(str);
-	for (int i = 0; i < len; i++)
-	glutBitmapCharacter(font, *str++);
+   void* font = GLUT_BITMAP_HELVETICA_12;
+   glRasterPos2f(x, y);
+   glColor3f(0, 0, 1);
+   int len = strlen(str);
+   for (int i = 0; i < len; i++)
+      glutBitmapCharacter(font, *str++);
 }
