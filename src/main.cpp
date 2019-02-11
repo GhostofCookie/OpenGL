@@ -1,5 +1,5 @@
 #include "../inc/App.h"
-#include "../inc/Objects/Cube.h"
+#include "../inc/Cube.h"
 #include <string>
 
 void display();
