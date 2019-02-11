@@ -1,5 +1,7 @@
 #pragma once
 
+#define GET_OBJECT_NAME(n) #n
+
 namespace GL_Colour
 {
 	struct Colour
@@ -55,11 +57,13 @@ namespace GL_Transform
 	struct GLScale
 	{
 		GLScale(float x, float y, float z);
+		float x, y, z;
 	};
 
 	struct GLTransform
 	{
 		GLTransform(GLVector, GLRotator, GLScale);
+
 	};
 }
 

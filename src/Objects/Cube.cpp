@@ -7,19 +7,27 @@
 #include <GL/glut.h>
 
 Cube::Cube(float x, float y, float z)
-	: material{ GL_Colour::GL_White }
+	: material{ GL_Colour::GL_White }, scale(1.f, 1.f, 1.f)
 {
 	x_loc = x;
 	y_loc = y;
 	z_loc = z;
+
+	for (int i = 0; i < 8; i++)
+		for (int j = 0; j < 3; j++)
+			vertices[i][j] *= 100.f;
 }
 
 Cube::Cube(float x, float y, float z, GL_Colour::Colour m)
-	: material{ m }
+	: material{ m }, scale(100.f, 100.f, 100.f)
 {
 	x_loc = x;
 	y_loc = y;
 	z_loc = z;
+
+	for (int i = 0; i < 8; i++)
+		for (int j = 0; j < 3; j++)
+			vertices[i][j] *= 100.f;
 }
 
 void Cube::Render()
@@ -27,7 +35,6 @@ void Cube::Render()
 	StartRender();
 
 	material.GetColour();
-	//glutWireCube(100.f);
 
 	GL_Quad(6, 2, 0, 4);
 	GL_Quad(0, 2, 3, 1);
@@ -35,6 +42,9 @@ void Cube::Render()
 	GL_Quad(4, 0, 1, 5);
 	GL_Quad(7, 5, 1, 3);
 	GL_Quad(6, 4, 5, 7);
+
+	GL_Colour::GL_Black.GetColour();
+	glutWireCube(201.f);
 
 	glLightf(GL_LIGHT0, GL_POSITION, 0);
 	EndRender();

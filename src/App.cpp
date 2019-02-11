@@ -24,12 +24,14 @@ App::App(int argc, char** argv, const char* name, int w, int h)
    glutInitWindowSize(w_width, w_height);
    glutInitWindowPosition(100, 100);
    glutCreateWindow(name);
+   glutSetIconTitle("CoffeeEngine.ico");
 }
 
 void App::Init(float c, GLenum mode)
 {
 	glClearColor(c, c, c, 1.0);
 	glClearDepth(1.0);
+	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glShadeModel(mode);
 }
@@ -44,6 +46,7 @@ void App::Display(void (*lambda)())
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	(*lambda)();
+
 	glutSwapBuffers();
 }
 
@@ -59,10 +62,7 @@ void App::Reshape(int w, int h)
 	glOrtho(-w_width, w_width, -w_height, w_height, -1000, 1000);
 
 	glMatrixMode(GL_MODELVIEW);
-
-	w_width = w;
-	w_height = h;
-
+	glutReshapeWindow(w_width, w_height);
 }
 
 void App::PrintToScreen(const char * str, float x, float y, void * font, GL_Colour::Colour colour)

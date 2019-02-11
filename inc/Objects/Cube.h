@@ -13,16 +13,17 @@ private:
 	GL_Colour::Colour material;
 
 private:
-	const float vertices[8][3] = {
-		{100.f, 100.f, 100.f},
-		{100.f, 100.f, -100.f},
-		{100.f, -100.f, 100.f},
-		{100.f, -100.f, -100.f},
-		{-100.f, 100.f, 100.f},
-		{-100.f, 100.f, -100.f},
-		{-100.f, -100.f, 100.f},
-		{-100.f, -100.f, -100.f}
+	float vertices[8][3] = {
+		{1, 1, 1},
+		{1, 1, -1},
+		{1, -1, 1},
+		{1, -1, -1},
+		{-1, 1, 1},
+		{-1, 1, -1},
+		{-1, -1, 1},
+		{-1, -1, -1}
 	};
 
 	void GL_Quad(int a, int b, int c, int d);
+	GL_Transform::GLScale scale;
 };
