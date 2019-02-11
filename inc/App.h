@@ -28,6 +28,9 @@ public: // Application Functions
 		GL_Colour::Colour colour = GL_Colour::GL_White);
 
 private:
+	static int w_width;
+	static int w_height;
+
 	typedef void(*__gl_void_ii	)(int, int);
 	typedef void(*__gl_void_iiii)(int, int, int, int);
 	typedef void(*__gl_void_ucii)(unsigned char, int, int);
@@ -39,8 +42,9 @@ inline void App::RegisterCallbackFuncs(void(*funcs)(T...)...)
 	va_list vl;
 	va_start(vl, funcs);
 	glutDisplayFunc	(funcs);
-	glutReshapeFunc	(va_arg(vl, __gl_void_ii));
+	glutReshapeFunc(&Reshape);
 	glutMouseFunc	(va_arg(vl, __gl_void_iiii));
 	glutKeyboardFunc(va_arg(vl, __gl_void_ucii));
+	glutIdleFunc(funcs);
 	va_end(vl);
 }

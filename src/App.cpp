@@ -12,11 +12,16 @@
 
 #include "../inc/App.h"
 
+int App::w_width;
+int App::w_height;
+
 App::App(int argc, char** argv, const char* name, int w, int h)
 {
+	w_width = w;
+	w_height = h;
    glutInit(&argc, argv);
-   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-   glutInitWindowSize(w, h);
+   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+   glutInitWindowSize(w_width, w_height);
    glutInitWindowPosition(100, 100);
    glutCreateWindow(name);
 }
@@ -24,6 +29,8 @@ App::App(int argc, char** argv, const char* name, int w, int h)
 void App::Init(float c, GLenum mode)
 {
 	glClearColor(c, c, c, 1.0);
+	glClearDepth(1.0);
+	glDepthFunc(GL_LESS);
 	glShadeModel(mode);
 }
 
@@ -34,27 +41,38 @@ void App::Loop()
 
 void App::Display(void (*lambda)())
 {
-	glClear(GL_COLOR_BUFFER_BIT);
-	glPushMatrix();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	(*lambda)();
-	glPopMatrix();
 	glutSwapBuffers();
 }
 
 void App::Reshape(int w, int h)
 {
-	glutReshapeWindow(w, h);
+	if (!h) h = 1;
+
+	glViewport(0, 0, w_width, w_height);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glOrtho(-w_width, w_width, -w_height, w_height, -1000, 1000);
+
+	glMatrixMode(GL_MODELVIEW);
+
+	w_width = w;
+	w_height = h;
+
 }
 
 void App::PrintToScreen(const char * str, float x, float y, void * font, GL_Colour::Colour colour)
 {
 	glDisable(GL_LIGHTING);
-	colour;
+	colour.GetColour();
 	glRasterPos2f(x, y);
 	int len = strlen(str);
 	for (int i = 0; i < len; i++)
 		glutBitmapCharacter(font, *str++);
-	glEnable(GL_LIGHTING);
 }
 
 void App::PrintToScreen(const char* str, float x, float y, GL_Colour::Colour colour)
