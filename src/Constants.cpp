@@ -34,7 +34,7 @@ namespace GL_Colour
 
 namespace GL_Font
 {
-	void* GL_Font::GetFont(int font)
+	void* GetFont(int font)
 	{
 		switch (font)
 		{
