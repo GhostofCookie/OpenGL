@@ -1,5 +1,6 @@
 #pragma once
 #include <Constants.h>
+using namespace GL_Transform;
 
 class Object
 {
@@ -9,13 +10,20 @@ public:
 
 	virtual void Render() = 0;
 
+	virtual void SetLocation(GLVector location);
+	virtual void SetLocation(float x, float y, float z);
+
 	virtual void Translate(float, float, float);
 
+	virtual void Rotate(float theta, GLVector v1 = GLVector(0.f, 0.f, 0.f));
 	virtual void Rotate(float theta,
-		GL_Transform::GLVector v1 = GL_Transform::GLVector(0.f, 0.f, 0.f), 
-		GL_Transform::GLVector v2 = GL_Transform::GLVector(0.f, 0.f, 0.f));
+		GLVector v1 = GLVector(0.f, 0.f, 0.f), 
+		GLVector v2 = GLVector(0.f, 0.f, 0.f));
 
-	GL_Transform::GLVector GetTransform();
+	GLVector GetLocation();
+	GLRotator GetRotation();
+	GLScale GetScale();
+	GLTransform GetTransform();
 
 protected:
 	virtual void StartRender();
@@ -23,9 +31,8 @@ protected:
 	virtual void EndRender();
 
 protected:
-	float x_loc, y_loc, z_loc;
+	GLTransform transform;
 	float angle;
-	GL_Transform::GLRotator r_vector;
 	
 
 };

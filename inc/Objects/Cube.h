@@ -25,5 +25,4 @@ private:
 	};
 
 	void GL_Quad(int a, int b, int c, int d);
-	GL_Transform::GLScale scale;
 };

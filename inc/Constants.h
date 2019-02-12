@@ -37,6 +37,7 @@ namespace GL_Transform
 	struct GLVector
 	{
 	public:
+		GLVector();
 		GLVector(float x, float y);
 		GLVector(float x, float y, float z);
 		
@@ -46,7 +47,9 @@ namespace GL_Transform
 	struct GLRotator
 	{
 	public:
+		GLRotator();
 		GLRotator(float);
+		GLRotator(GLVector v);
 		GLRotator(GLVector v1, GLVector v2);
 		GLRotator(float x1, float y1, float z1, float x2, float y2, float z2);
 		
@@ -56,13 +59,28 @@ namespace GL_Transform
 
 	struct GLScale
 	{
+		GLScale();
 		GLScale(float x, float y, float z);
 		float x, y, z;
 	};
 
 	struct GLTransform
 	{
+	public:
 		GLTransform(GLVector, GLRotator, GLScale);
+
+		GLVector GetLocation();
+		GLRotator GetRotation();
+		GLScale GetScale();
+
+		void SetLocation(GLVector l);
+		void SetRotation(GLRotator r);
+		void SetScale(GLScale s);
+
+	private:
+		GLVector location;
+		GLRotator rotation;
+		GLScale scale;
 
 	};
 }

@@ -7,11 +7,9 @@
 #include <GL/glut.h>
 
 Cube::Cube(float x, float y, float z)
-	: material{ GL_Colour::GL_White }, scale(1.f, 1.f, 1.f)
+	: material{ GL_Colour::GL_White }
 {
-	x_loc = x;
-	y_loc = y;
-	z_loc = z;
+	SetLocation(x, y, z);
 
 	for (int i = 0; i < 8; i++)
 		for (int j = 0; j < 3; j++)
@@ -19,11 +17,9 @@ Cube::Cube(float x, float y, float z)
 }
 
 Cube::Cube(float x, float y, float z, GL_Colour::Colour m)
-	: material{ m }, scale(100.f, 100.f, 100.f)
+	: material{ m }
 {
-	x_loc = x;
-	y_loc = y;
-	z_loc = z;
+	SetLocation(x, y, z);
 
 	for (int i = 0; i < 8; i++)
 		for (int j = 0; j < 3; j++)

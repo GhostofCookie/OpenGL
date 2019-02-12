@@ -8,41 +8,76 @@
 #include <GL/glut.h>
 
 Object::Object()
-	: x_loc{ 0.f }, y_loc{ 0.f }, z_loc{ 0.f }, r_vector(0.f)
+	: transform(GLVector(0.f, 0.f, 0.f), GLRotator(0.f), GLScale(1.f, 1.f, 1.f))
 {
 }
 
 Object::Object(float x, float y, float z)
-	: x_loc{ x }, y_loc{ y }, z_loc{ z }, r_vector(0.f)
+	: transform(GLVector(0.f, 0.f, 0.f), GLRotator(0.f), GLScale(1.f, 1.f, 1.f))
 {
+}
+
+void Object::SetLocation(GLVector loc)
+{
+	transform.SetLocation(loc);
+}
+
+void Object::SetLocation(float x, float y, float z)
+{
+	transform.SetLocation(GLVector(x, y, z));
 }
 
 void Object::Translate(float x, float y, float z)
 {
-	x_loc = x; y_loc = y; z_loc = z;
+	SetLocation(GLVector(
+		transform.GetLocation().x + x,
+		transform.GetLocation().y + y,
+		transform.GetLocation().z + z));
 }
 
-void Object::Rotate(float theta, GL_Transform::GLVector v1, GL_Transform::GLVector v2)
+void Object::Rotate(float theta, GLVector v1)
+{
+}
+
+void Object::Rotate(float theta, GLVector v1, GLVector v2)
 {
 	angle = (int(angle + theta)) % 361;
-	r_vector = GL_Transform::GLRotator(v1, v2);
+	transform.SetRotation(GLRotator(v1, v2));
 	glutPostRedisplay();
 }
 
-GL_Transform::GLVector Object::GetTransform()
+GLVector Object::GetLocation()
 {
-	return GL_Transform::GLVector(x_loc, y_loc, z_loc);
+	return transform.GetLocation();
+}
+
+GLRotator Object::GetRotation()
+{
+	return transform.GetRotation();
+}
+
+GLScale Object::GetScale()
+{
+	return transform.GetScale();
+}
+
+GLTransform Object::GetTransform()
+{
+	return transform;
 }
 
 void Object::StartRender()
 {
 	glLoadIdentity();
 	glPushMatrix();
-	glTranslatef(x_loc, y_loc, z_loc);
-	glRotatef(angle, r_vector.x1 - r_vector.x2, r_vector.y1 - r_vector.y2, r_vector.z1 - r_vector.z2);
-	glTranslatef(-x_loc, -y_loc, -z_loc);
+	glTranslatef(transform.GetLocation().x, transform.GetLocation().y, transform.GetLocation().z);
+	glRotatef(angle,
+		transform.GetRotation().x1 - transform.GetRotation().x2,
+		transform.GetRotation().y1 - transform.GetRotation().y2,
+		transform.GetRotation().z1 - transform.GetRotation().z2);
+	glTranslatef(-transform.GetLocation().x, -transform.GetLocation().y, -transform.GetLocation().z);
 
-	glTranslatef(x_loc, y_loc, z_loc);
+	glTranslatef(transform.GetLocation().x, transform.GetLocation().y, transform.GetLocation().z);
 }
 
 void Object::EndRender()
