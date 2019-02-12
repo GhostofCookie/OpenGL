@@ -1,4 +1,4 @@
-#include "../inc/Object.h"
+#include <Object.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -19,7 +19,7 @@ Object::Object(float x, float y, float z)
 
 void Object::Translate(float x, float y, float z)
 {
-	x_loc += x; y_loc += y; z_loc += z;
+	x_loc = x; y_loc = y; z_loc = z;
 }
 
 void Object::Rotate(float theta, GL_Transform::GLVector v1, GL_Transform::GLVector v2)

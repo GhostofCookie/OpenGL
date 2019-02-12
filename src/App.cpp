@@ -10,7 +10,7 @@
 
 #include <queue>
 
-#include "../inc/App.h"
+#include <App.h>
 
 int App::w_width;
 int App::w_height;

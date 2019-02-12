@@ -1,4 +1,4 @@
-#include "../inc/Constants.h"
+#include <Constants.h>
 
 #ifdef _WIN32
 #include <windows.h>

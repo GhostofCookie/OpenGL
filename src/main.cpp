@@ -1,17 +1,19 @@
-#include "../inc/App.h"
-#include "../inc/Cube.h"
+#include <App.h>
+#include <Cube.h>
 #include <string>
 
 void display();
 void mouse(int button, int state, int x, int y);
+void mouse_passive(int x, int y);
 
-Cube cube(0, -100, 0, GL_Colour::GL_Blue);
+Cube cube(300, -100, 300, GL_Colour::GL_Blue);
 Cube cube2(0, 100, 0, GL_Colour::GL_Green);
+Cube cube3(-200, 100, 0, GL_Colour::GL_Red);
 
 int main(int argc, char** argv)
 {
    App(argc, argv, argv[0]);
-   App::RegisterCallbackFuncs(display, mouse);
+   App::RegisterCallbackFuncs(display, mouse, mouse_passive);
    App::Init(0.1f, GL_SMOOTH);
    App::Loop();
 
@@ -40,6 +42,7 @@ void display(void)
 	   
 	   cube.Render();
 	   cube2.Render();
+	   cube3.Render();
 	   cube.Rotate(1, GL_Transform::GLVector(0, 0, 0), GL_Transform::GLVector(1, 1, 1));
 	   cube2.Rotate(-1, GL_Transform::GLVector(0, 0, 0), GL_Transform::GLVector(1, -1, 1));
 
@@ -49,16 +52,28 @@ void display(void)
 
 void mouse(int button, int state, int x, int y)
 {
-	switch (button)
-	{
-	case  GLUT_LEFT_BUTTON:
-		if (state == GLUT_DOWN)
-			cube.Translate(0.f, 10.f, 0.f);
-		break;
-	case GLUT_RIGHT_BUTTON:
-		if (state == GLUT_DOWN)
-			cube.Translate(0.f, -10.f, 0.f);
-		break;
-	}
+   switch (button)
+   {
+      case  GLUT_LEFT_BUTTON:
+	 if (state == GLUT_DOWN)
+	 {
+	    glutPassiveMotionFunc(mouse_passive);
+	    cube.Translate(0.f, 10.f, 0.f);
+	    cube3.Rotate(-1, GL_Transform::GLVector(0, 0, 0), GL_Transform::GLVector(1, -1, 1));
+	 }
+//	 else 
+//	    glutPassiveMotionFunc(NULL);
+	 break;
+      case GLUT_RIGHT_BUTTON:
+	 if (state == GLUT_DOWN)
+	    cube.Translate(0.f, -10.f, 0.f);
+	 break;
+   }
+}
+
+
+void mouse_passive(int x, int y)
+{
+   cube3.Translate(x*2 - 720, -y*2 + 480, 0);
 }
 

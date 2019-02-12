@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Constants.h"
+#include <Constants.h>
 #include <GL/glut.h>
 #include <cstdarg>
 
@@ -44,6 +44,7 @@ inline void App::RegisterCallbackFuncs(void(*funcs)(T...)...)
 	glutDisplayFunc	(funcs);
 	glutReshapeFunc(&Reshape);
 	glutMouseFunc	(va_arg(vl, __gl_void_iiii));
+	glutPassiveMotionFunc(va_arg(vl, __gl_void_ii));
 	glutKeyboardFunc(va_arg(vl, __gl_void_ucii));
 	glutIdleFunc(funcs);
 	va_end(vl);

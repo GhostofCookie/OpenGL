@@ -1,21 +1,24 @@
-CC := g++ 
-LDFLAGS := -Wall
-CPPFLAGS := -std=c++11
-CXXFLAGS :=
+SRC_DIR 	= src/
+INC_DIR 	= inc/
+BIN_DIR 	= bin/
 
-SRC_DIR := ./src/
-INC_DIR := ./inc/
+CC		= g++ 
+LDFLAGS 	= -Wall
+CPPFLAGS 	= -std=c++11
+CXXFLAGS	= -I$(INC_DIR) -I$(INC_DIR)Objects/
 
-BIN_DIR := ./bin/
+SRC_FILES 	= $(wildcard $(SRC_DIR)*.cpp) $(wildcard $(SRC_DIR)Objects/*.cpp)
+OBJ_FILES 	= $(patsubst $(SRC_DIR)%.cpp,$(BIN_DIR)%.o,$(SRC_FILES))
 
-SRC_FILES := $(wildcard $(SRC_DIR)*.cpp)
-OBJ_FILES := $(patsubst $(SRC_DIR)%.cpp,$(BIN_DIR)%.o,$(SRC_FILES))
+LIBDIR 		= -L/usr/lib/
+LIBRARIES 	= -lX11 -lglut -lGL -lGLU -lm
 
-app_default := Application
-app ?= $(app_default)
+app_default 	= Engine
+app 		?= $(app_default)
 
-LIBDIR = -L/usr/lib/
-LIBRARIES = -lX11 -lglut -lGL -lGLU -lm
+define cc-bin-build
+$(CC) $(CPPFLAGS) $(CXXFLAGS) $(INC_DIR) -c -o $@ $(LIBDIR) $< $(LIBRARIES)
+endef
 
 all: clean-all mkbin build
 
@@ -23,7 +26,7 @@ build: $(OBJ_FILES)
 	$(CC) $(LDFLAGS) -o $(app) $^ $(LIBDIR) $(LIBRARIES)
 
 $(BIN_DIR)%.o: $(SRC_DIR)%.cpp
-	$(CC) $(CPPFLAGS) $(CXXFLAGS) $(INC_DIR) -c -o $@ $(LIBDIR) $< $(LIBRARIES)
+	$(cc-bin-build)	
 
 .PHONY: clean clean-all
 clean:
@@ -34,4 +37,4 @@ clean-all: clean
 	rm -rf $(app) $(app_default)
 
 mkbin:
-	mkdir $(BIN_DIR)
+	mkdir $(BIN_DIR) $(BIN_DIR)/Objects/
