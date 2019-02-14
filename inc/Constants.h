@@ -2,27 +2,30 @@
 
 #define GET_OBJECT_NAME(n) #n
 
-namespace GL_Colour
+/** 
+* Defines a colour based on RGB values.
+*/
+struct GL_Colour
 {
-	struct Colour
-	{
-	public:
-		Colour(Colour* c);
-		Colour(float, float, float);
-		~Colour();
-		void GetColour();
-	private:
-		float r, g, b;
-	};
+public:
+	__forceinline explicit GL_Colour(float, float, float);
+	GL_Colour(const GL_Colour& c);
+	GL_Colour(const GL_Colour* c);
+	void UseColour();
 
-#define GL_Black	Colour(0.f, 0.f, 0.f)
-#define GL_White	Colour(1.f, 1.f, 1.f)
-#define GL_Red		Colour(1.f, 0.f, 0.f)
-#define GL_Green	Colour(0.f, 1.f, 0.f)
-#define GL_Blue		Colour(0.f, 0.f, 1.f)
-#define GL_Cyan		Colour(0.f, 0.8f, 1.f)
-#define GL_Emerald	Colour(0.f, 1.f, 0.5f)
-}
+	static const GL_Colour Black;
+	static const GL_Colour White;
+	static const GL_Colour Red;
+	static const GL_Colour Green;
+	static const GL_Colour Blue;
+	static const GL_Colour Cyan;
+	static const GL_Colour Emerald;
+	static const GL_Colour Purple;
+
+private:
+	float R, G, B;
+};
+
 
 namespace GL_Font
 {
@@ -32,56 +35,58 @@ namespace GL_Font
 #define TIMES		GetFont(1)
 }
 
-namespace GL_Transform
+struct GLVector
 {
-	struct GLVector
-	{
-	public:
-		GLVector();
-		GLVector(float x, float y);
-		GLVector(float x, float y, float z);
+public:
+	GLVector();
+	GLVector(float x, float y);
+	GLVector(float x, float y, float z);
 		
-		float x, y, z;
-	};
+	float X, Y, Z;
+};
 
-	struct GLRotator
-	{
-	public:
-		GLRotator();
-		GLRotator(float);
-		GLRotator(GLVector v);
-		GLRotator(GLVector v1, GLVector v2);
-		GLRotator(float x1, float y1, float z1, float x2, float y2, float z2);
+struct GLRotator
+{
+public:
+	GLRotator();
+	GLRotator(GLRotator* rot);
+	GLRotator(float);
+	GLRotator(float x, float y, float z);
+	GLRotator(float x1, float y1, float z1, float x2, float y2, float z2);
+	GLRotator(GLVector v1, GLVector v2);
 		
-		float x1, y1, z1;
-		float x2, y2, z2;
-	};
+	float X, Y, Z;
+	int Angle;
+};
 
-	struct GLScale
-	{
-		GLScale();
-		GLScale(float x, float y, float z);
-		float x, y, z;
-	};
+struct GLScale
+{
+	GLScale();
+	GLScale(GLScale* scale);
+	GLScale(float x, float y, float z);
 
-	struct GLTransform
-	{
-	public:
-		GLTransform(GLVector, GLRotator, GLScale);
+	float X, Y, Z;
+};
 
-		GLVector GetLocation();
-		GLRotator GetRotation();
-		GLScale GetScale();
+struct GLTransform
+{
+public:
+	GLTransform();
+	GLTransform(GLVector, GLRotator, GLScale);
+	~GLTransform() {}
 
-		void SetLocation(GLVector l);
-		void SetRotation(GLRotator r);
-		void SetScale(GLScale s);
+	GLVector GetLocation();
+	GLRotator GetRotation();
+	GLScale GetScale();
 
-	private:
-		GLVector location;
-		GLRotator rotation;
-		GLScale scale;
+	void SetLocation(GLVector l);
+	void SetRotation(GLRotator r);
+	void SetScale(GLScale s);
 
-	};
-}
+private:
+	GLVector	_location;
+	GLRotator	_rotation;
+	GLScale		_scale;
+
+};
 
