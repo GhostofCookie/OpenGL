@@ -8,8 +8,8 @@
 struct GL_Colour
 {
 public:
-	__forceinline explicit GL_Colour(float, float, float);
-	__forceinline explicit GL_Colour(float, float, float, float);
+	inline explicit GL_Colour(float, float, float);
+	inline explicit GL_Colour(float, float, float, float);
 	GL_Colour(const GL_Colour& c);
 	[[noreturn]] void UseColour();
 
