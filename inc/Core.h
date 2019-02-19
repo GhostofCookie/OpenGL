@@ -8,8 +8,8 @@
 struct GL_Colour
 {
 public:
-	inline explicit GL_Colour(float, float, float);
-	inline explicit GL_Colour(float, float, float, float);
+	explicit GL_Colour(float, float, float);
+	explicit GL_Colour(float, float, float, float);
 	GL_Colour(const GL_Colour& c);
 	void UseColour();
 
@@ -29,7 +29,7 @@ private:
 struct GL_Font
 {
 public:
-	inline explicit GL_Font(int);
+	explicit GL_Font(int);
 	void* GetFont();
 	
 	static const GL_Font HELVETICA;

@@ -20,10 +20,10 @@ const GL_Colour GL_Colour::Cyan(0.f, 0.8f, 1.f);
 const GL_Colour GL_Colour::Emerald(0.f, 1.f, 0.5f);
 const GL_Colour GL_Colour::Purple(0.8f, 0.f, 1.f);
 
-inline GL_Colour::GL_Colour(float r, float g, float b)
+GL_Colour::GL_Colour(float r, float g, float b)
 	: R{ std::fmod(r, 2.f) }, G{ std::fmod(g, 2.f) }, B{ std::fmod(b, 2.f) }, A{ 1.f } {}
 
-inline GL_Colour::GL_Colour(float r, float g, float b, float a)
+GL_Colour::GL_Colour(float r, float g, float b, float a)
 	: R{ std::fmod(r, 2.f) }, G{ std::fmod(g, 2.f) }, B{ std::fmod(b, 2.f) }, A{ std::fmod(a, 2.f) } {}
 
 GL_Colour::GL_Colour(const GL_Colour& c)
