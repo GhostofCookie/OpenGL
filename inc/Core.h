@@ -11,7 +11,7 @@ public:
 	inline explicit GL_Colour(float, float, float);
 	inline explicit GL_Colour(float, float, float, float);
 	GL_Colour(const GL_Colour& c);
-	[[noreturn]] void UseColour();
+	void UseColour();
 
 	static const GL_Colour Black;
 	static const GL_Colour White;
@@ -29,7 +29,7 @@ private:
 struct GL_Font
 {
 public:
-	__forceinline explicit GL_Font(int);
+	inline explicit GL_Font(int);
 	void* GetFont();
 	
 	static const GL_Font HELVETICA;

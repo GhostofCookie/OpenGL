@@ -23,10 +23,10 @@ public: // Window Setup
 	@param c is the colour of the background when the window colour is cleared.
 	@param mode is the shading style.
 	*/
-	[[noreturn]] static void Init(float c = 0.15f, GLenum mode = GL_FLAT);
+	static void Init(float c = 0.15f, GLenum mode = GL_FLAT);
 
 	template<typename ...T>
-	[[noreturn]] static void RegisterCallbackFuncs(void(*funcs)(T...)...);
+	static void RegisterCallbackFuncs(void(*funcs)(T...)...);
 
 	/** Displays the give lambda to the screen.
 	@param lambda is the lambda function which holds all the visual functionality.
@@ -37,10 +37,10 @@ public: // Window Setup
 	@param w is the new width of the window.
 	@param h is the new height of the window. 
 	*/
-	[[noreturn]] static void Reshape(int w, int h);
+	static void Reshape(int w, int h);
 
 	/** OpenGl main loop wrapper method. */
-	[[noreturn]] static void Loop();
+	static void Loop();
 
 public: // Application Functions
 	/** Returns the width of the application window. */

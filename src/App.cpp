@@ -101,7 +101,7 @@ void App::PrintToScreen(const char * str, float x, float y, GL_Font font, GL_Col
 	glDisable(GL_LIGHTING);
 	colour.UseColour();
 	glRasterPos2f(x, y);
-	int len = strlen(str);
+	int len = std::strlen(str);
 	for (int i = 0; i < len; i++)
 		glutBitmapCharacter(font.GetFont(), *str++);
 	/* TODO: LOOK INTO GETTING THIS WORKING */
