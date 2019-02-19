@@ -6,8 +6,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>    
-#include <string> 
-#include <queue>
+#include <cstring>
 
 #include <App.h>
 #include <Core.h>
@@ -101,7 +100,7 @@ void App::PrintToScreen(const char * str, float x, float y, GL_Font font, GL_Col
 	glDisable(GL_LIGHTING);
 	colour.UseColour();
 	glRasterPos2f(x, y);
-	int len = std::strlen(str);
+	int len = strlen(str);
 	for (int i = 0; i < len; i++)
 		glutBitmapCharacter(font.GetFont(), *str++);
 	/* TODO: LOOK INTO GETTING THIS WORKING */
