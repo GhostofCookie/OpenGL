@@ -1,4 +1,4 @@
-#include <Constants.h>
+#include <Core.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -11,7 +11,7 @@
 #include <string>
 
 
-const GL_Colour GL_Colour::Black(0.f, 0.f, 0.f);
+const GL_Colour GL_Colour::Black(0.f, 0.f, 0.f, 1.f);
 const GL_Colour GL_Colour::White(1.f, 1.f, 1.f);
 const GL_Colour GL_Colour::Red(1.f, 0.f, 0.f);
 const GL_Colour GL_Colour::Green(0.f, 1.f, 0.f);
@@ -21,32 +21,39 @@ const GL_Colour GL_Colour::Emerald(0.f, 1.f, 0.5f);
 const GL_Colour GL_Colour::Purple(0.8f, 0.f, 1.f);
 
 GL_Colour::GL_Colour(float r, float g, float b)
-	: R{ std::fmod(r, 256.f) }, G{ std::fmod(g, 256.f) }, B{ std::fmod(b, 256.f) }{}
+	: R{ std::fmod(r, 2.f) }, G{ std::fmod(g, 2.f) }, B{ std::fmod(b, 2.f) }, A{ 1.f } {}
+
+GL_Colour::GL_Colour(float r, float g, float b, float a)
+	: R{ std::fmod(r, 2.f) }, G{ std::fmod(g, 2.f) }, B{ std::fmod(b, 2.f) }, A{ std::fmod(a, 2.f) } {}
 
 GL_Colour::GL_Colour(const GL_Colour& c)
-	: R{ c.R }, G{ c.G }, B{ c.B } {}
-
-GL_Colour::GL_Colour(const GL_Colour * c)
-	: R{ c->R }, G{ c->G }, B{ c->B } {}
+	: R{ c.R }, G{ c.G }, B{ c.B }, A{ c.A } {}
 
 void GL_Colour::UseColour()
 {
-	glColor3f(R, G, B);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_EMISSION);
+	glMaterialf(GL_FRONT_AND_BACK, GL_EMISSION, 0.f);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SPECULAR, 0.f);
+	glColor4f(R, G, B, A);
 }
 
-namespace GL_Font
+const GL_Font GL_Font::HELVETICA(0);
+const GL_Font GL_Font::TIMES(1);
+
+GL_Font::GL_Font(int i)
+	: index{ i }
+{}
+
+void* GL_Font::GetFont()
 {
-	void* GetFont(int font)
+	switch (index)
 	{
-		switch (font)
-		{
-		case 0:
-			return GLUT_BITMAP_HELVETICA_12;
-		case 1:
-			return GLUT_BITMAP_TIMES_ROMAN_10;
-		}
+	case 0:
 		return GLUT_BITMAP_HELVETICA_12;
+	case 1:
+		return GLUT_BITMAP_TIMES_ROMAN_10;
 	}
+	return GLUT_BITMAP_HELVETICA_12;
 }
 
 GLVector::GLVector() {}
@@ -67,9 +74,7 @@ GLRotator::GLRotator(float d)
 
 GLRotator::GLRotator(float x, float y, float z)
 	: X{ x > 1 ? x / x : x }, Y{ y > 1 ? y / y : y }, Z{ z > 1 ? z / z : z }
-{
-	Angle = std::fmod(std::abs(x) + std::abs(y) + std::abs(z), 360.f);
-}
+	, Angle{ std::fmod(std::abs(x) + std::abs(y) + std::abs(z), 360.f) } {}
 
 GLRotator::GLRotator(float x1, float y1, float z1, float x2, float y2, float z2)
 	: X{ (x2 - x1) }, Y{ (y2 - y1) }, Z{ (z2 - z1) } {}
@@ -90,17 +95,17 @@ GLTransform::GLTransform() {}
 GLTransform::GLTransform(GLVector l, GLRotator r, GLScale s)
 	: _location{ l }, _rotation{ r }, _scale{ s } {}
 
-GLVector GLTransform::GetLocation()
+GLVector GLTransform::GetLocation() const
 {
 	return _location;
 }
 
-GLRotator GLTransform::GetRotation()
+GLRotator GLTransform::GetRotation() const
 {
 	return _rotation;
 }
 
-GLScale GLTransform::GetScale()
+GLScale GLTransform::GetScale() const
 {
 	return _scale;
 }

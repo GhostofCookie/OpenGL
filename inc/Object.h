@@ -60,17 +60,17 @@ public:
 	*/
 	virtual void SetScale(float x, float y, float z);
 
+	/** Translates the object ina  given direction.
+	@param The direction and magnitude of translation.
+	*/
+	virtual void Translate(GLVector v);
+
 	/** Translates the object in a given direction.
 	@param The amount to be translated in the x direction.
 	@param The amount to be translated in the y direction.
 	@param The amount to be translated in the z direction.
 	*/
 	virtual void Translate(float x, float y, float z);
-
-	/** Translates the object ina  given direction.
-	@param The direction and magnitude of translation.
-	*/
-	virtual void Translate(GLVector v);
 
 	/** Rotate the object.
 	@param The axis and magnitude of rotation.
@@ -82,7 +82,7 @@ public:
 	@param The first vector endpoint.
 	@param The last vector endpoint.
 	*/
-	virtual void Rotate(int theta, GLVector v1, GLVector v2);
+	virtual void Rotate(float theta, GLVector v1, GLVector v2);
 
 	/** Returns the object's current location. */
 	GLVector GetLocation();
@@ -105,7 +105,7 @@ protected:
 
 protected:
 	GLTransform* _transform;
-	int _angle;
+	float _angle;
 	
 
 };

@@ -3,7 +3,9 @@
 #include <GL/glut.h>
 #include <cstdarg>
 #include <vector>
-#include <Constants.h>
+
+struct GL_Font;
+struct GL_Colour;
 
 class App
 {
@@ -21,10 +23,10 @@ public: // Window Setup
 	@param c is the colour of the background when the window colour is cleared.
 	@param mode is the shading style.
 	*/
-	static void Init(float c = 0.15f, GLenum mode = GL_FLAT);
+	[[noreturn]] static void Init(float c = 0.15f, GLenum mode = GL_FLAT);
 
 	template<typename ...T>
-	static void RegisterCallbackFuncs(void(*funcs)(T...)...);
+	[[noreturn]] static void RegisterCallbackFuncs(void(*funcs)(T...)...);
 
 	/** Displays the give lambda to the screen.
 	@param lambda is the lambda function which holds all the visual functionality.
@@ -35,14 +37,16 @@ public: // Window Setup
 	@param w is the new width of the window.
 	@param h is the new height of the window. 
 	*/
-	static void Reshape(int w, int h);
+	[[noreturn]] static void Reshape(int w, int h);
 
 	/** OpenGl main loop wrapper method. */
-	static void Loop();
+	[[noreturn]] static void Loop();
 
 public: // Application Functions
+	/** Returns the width of the application window. */
 	static int Width();
 
+	/** Returns the height of the application window. */
 	static int Height();
 
 	/** Prints a message to the screen.
@@ -52,24 +56,27 @@ public: // Application Functions
 	@param font of the given text.
 	@param colour of the text. 
 	*/
-	static void PrintToScreen(const char* str, float x = 0.f, float y = 0.f,
-		void* font = GL_Font::HELVETICA,
-		GL_Colour colour = GL_Colour::White);
+	static void PrintToScreen(const char* str, float x, float y,
+		GL_Font font,
+		GL_Colour colour);
 	/** Prints a message to the screen.
 	@param str is the message to be displayed.
 	@param x is the x coordinate to be printed at.
 	@param y is the y coordinate to be printed at.
 	@param colour of the text.
 	*/
-	static void PrintToScreen(const char* str, float x = 0.f, float y = 0.f, 
-		GL_Colour colour = GL_Colour::White);
+	static void PrintToScreen(const char* str, float x, float y,
+		GL_Colour colour);
 
-
+	/** Add a given object to the pool of objects to be rendered. This reduces the need to call Render
+	manually.
+	@param The object to eb added to the pool.
+	*/
 	static void AddObjectToPool(class Object* obj);
 
 private:
-	static int w_width;
-	static int w_height;
+	static int _width;
+	static int _height;
 	static std::vector<Object*> _object_pool;
 
 	typedef void(*__gl_void_ii	)(int, int);

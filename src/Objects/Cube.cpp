@@ -6,7 +6,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-#include <Constants.h>
+#include <Core.h>
 
 Cube::Cube() :_material { new GL_Colour(GL_Colour::White) } {}
 
@@ -48,7 +48,6 @@ void Cube::Tick()
 	c.UseColour();
 	glutWireCube(2.005f);
 
-	glLightf(GL_LIGHT0, GL_POSITION, 0);
 	EndRender();
 }
 

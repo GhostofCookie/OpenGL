@@ -7,8 +7,10 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
+#include <cmath>
+
 #include <App.h>
-#include <Constants.h>
+#include <Core.h>
 
 
 Object::Object()
@@ -56,14 +58,6 @@ void Object::SetScale(float x, float y, float z)
 	SetScale(GLScale(x, y, z));
 }
 
-void Object::Translate(float x, float y, float z)
-{
-	SetLocation(GLVector(
-		_transform->GetLocation().X + x,
-		_transform->GetLocation().Y + y,
-		_transform->GetLocation().Z + z));
-}
-
 void Object::Translate(GLVector v)
 {
 	SetLocation(
@@ -72,16 +66,24 @@ void Object::Translate(GLVector v)
 		_transform->GetLocation().Z + v.Z);
 }
 
+void Object::Translate(float x, float y, float z)
+{
+	SetLocation(GLVector(
+		_transform->GetLocation().X + x,
+		_transform->GetLocation().Y + y,
+		_transform->GetLocation().Z + z));
+}
+
 void Object::Rotate(GLRotator r)
 {
 	_transform->SetRotation(r);
-	_angle = (_angle + _transform->GetRotation().Angle) % 360;
+	_angle = std::fmod(_angle + _transform->GetRotation().Angle, 360.f);
 }
 
 
-void Object::Rotate(int theta, GLVector v1, GLVector v2)
+void Object::Rotate(float theta, GLVector v1, GLVector v2)
 {
-	_angle = (_angle + theta) % 360;
+	_angle = std::fmod(_angle + theta, 360.f);
 	_transform->SetRotation(GLRotator(v1, v2));
 }
 
