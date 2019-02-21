@@ -1,5 +1,6 @@
 #pragma once
 #include <Object.h>
+class GLMeshComponent;
 
 struct GL_Colour;
 
@@ -16,18 +17,5 @@ public:
 
 private:
 	GL_Colour* _material;
-
-private:
-	float vertices[8][3] = {
-		{1, 1, 1},
-		{1, 1, -1},
-		{1, -1, 1},
-		{1, -1, -1},
-		{-1, 1, 1},
-		{-1, 1, -1},
-		{-1, -1, 1},
-		{-1, -1, -1}
-	};
-
-	void GL_Quad(int a, int b, int c, int d);
+	GLMeshComponent* mesh;
 };

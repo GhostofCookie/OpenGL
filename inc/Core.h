@@ -1,5 +1,13 @@
 #pragma once
 
+#ifdef _WIN32
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
 #define GET_OBJECT_NAME(n) #n
 
 /** 
@@ -15,6 +23,7 @@ public:
 
 	static const GL_Colour Black;
 	static const GL_Colour White;
+	static const GL_Colour Grey;
 	static const GL_Colour Red;
 	static const GL_Colour Green;
 	static const GL_Colour Blue;

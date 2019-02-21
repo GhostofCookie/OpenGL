@@ -11,6 +11,7 @@
 #include <App.h>
 #include <Core.h>
 #include <Object.h>
+#include <Engine/EngineUI.h>
 
 int App::_width;
 int App::_height;
@@ -45,7 +46,7 @@ void App::Init(float c, GLenum mode)
 	// Enable Lighting
 	glEnable(GL_LIGHTING); 
 	glEnable(GL_LIGHT0);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
 	glEnable(GL_COLOR_MATERIAL);
 	
 
@@ -76,6 +77,8 @@ void App::Display(void (*lambda)())
 
 	(*lambda)();
 
+	UI_Panel panel(0, -App::Height(), App::Width(), 300);
+	panel.Render();
 	glutSwapBuffers();
 }
 
@@ -88,7 +91,7 @@ void App::Reshape(int w, int h)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glOrtho(-_width, _width, -_height, _height, 1000, -1000);
+	glOrtho(-_width, _width, -_height, _height, -1000, 1000);
 
 	glMatrixMode(GL_MODELVIEW);
 	_width = w;
@@ -103,8 +106,7 @@ void App::PrintToScreen(const char * str, float x, float y, GL_Font font, GL_Col
 	int len = strlen(str);
 	for (int i = 0; i < len; i++)
 		glutBitmapCharacter(font.GetFont(), *str++);
-	/* TODO: LOOK INTO GETTING THIS WORKING */
-	// glEnable(GL_LIGHTING);
+	 glEnable(GL_LIGHTING);
 }
 
 void App::PrintToScreen(const char* str, float x, float y, GL_Colour colour)
