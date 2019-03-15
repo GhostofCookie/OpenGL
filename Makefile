@@ -7,7 +7,7 @@ LDFLAGS 	= -Wall
 CPPFLAGS 	= -std=c++11
 CXXFLAGS	= -I$(INC_DIR) -I$(INC_DIR)Objects/
 
-SRC_FILES 	= $(wildcard $(SRC_DIR)*.cpp) $(wildcard $(SRC_DIR)Objects/*.cpp)
+SRC_FILES 	= $(wildcard $(SRC_DIR)*.cpp) $(wildcard $(SRC_DIR)*/*.cpp)
 OBJ_FILES 	= $(patsubst $(SRC_DIR)%.cpp,$(BIN_DIR)%.o,$(SRC_FILES))
 
 LIBDIR 		= -L/usr/lib/
